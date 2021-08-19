@@ -3,14 +3,28 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Beranda from "./components/Beranda";
 import Navbar from "./components/Navbar";
 import ManajemenBuku from "./components/ManajemenBuku";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+// import { response } from 'express';
 
 
 function App() {
-  const [books, setBooks] = useState([
-    {_id: 1, judul: "Bumi", pengarang: "Tere Liya", harga: 80000, stok: 7},
-    {_id: 2, judul: "New York Hari Ini", pengarang: "Aan Mansyur", harga: 85000, stok: 5},
-  ]);
+  const [books, setBooks] = useState([]);
+
+  useEffect(() => {
+    retrieveData();
+  }, []);
+
+  function retrieveData() {
+    axios
+      .get("http://localhost:4000/book")
+      .then((response) => {
+        setBooks(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
 
   function storeData(inputBook) {
     console.log(inputBook);
