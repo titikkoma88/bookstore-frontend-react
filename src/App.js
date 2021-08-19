@@ -1,12 +1,11 @@
-import React from 'react';
+import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Beranda from "./components/Beranda";
 import Navbar from "./components/Navbar";
 import ManajemenBuku from "./components/ManajemenBuku";
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useEffect, useState } from "react";
+import axios from "axios";
 // import { response } from 'express';
-
 
 function App() {
   const [books, setBooks] = useState([]);
@@ -27,8 +26,19 @@ function App() {
   }
 
   function storeData(inputBook) {
-    console.log(inputBook);
-    alert("Data berhasil ditambahkan");
+    // console.log(inputBook);
+    // alert("Data berhasil ditambahkan");
+
+    axios
+      .post("http://localhost:4000/book/add", inputBook)
+      .then((res) => {
+        setBooks((prevBooks) => [...prevBooks, inputBook]);
+        alert("Data berhasil ditambahkan !");
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+
   }
   function updateData(inputBook) {
     console.log(inputBook);
@@ -48,7 +58,12 @@ function App() {
           </Route>
 
           <Route path="/manajemen-buku">
-            <ManajemenBuku bookList={books} store={storeData} update={updateData} remove={deleteData} />
+            <ManajemenBuku
+              bookList={books}
+              store={storeData}
+              update={updateData}
+              remove={deleteData}
+            />
           </Route>
         </Switch>
       </Router>
