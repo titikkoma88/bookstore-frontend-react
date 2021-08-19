@@ -41,12 +41,32 @@ function App() {
 
   }
   function updateData(inputBook) {
-    console.log(inputBook);
-    alert("Data berhasil diperbaharui");
+    // console.log(inputBook);
+    // alert("Data berhasil diperbaharui");
+
+    axios
+      .put("http://localhost:4000/book/update/" + inputBook._id, inputBook)
+      .then((res) => {
+        retrieveData();
+        alert("Data berhasil diperbaharui !");
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
   }
   function deleteData(book) {
-    console.log(book);
-    alert("Data berhasil dihapus");
+    // console.log(book);
+    // alert("Data berhasil dihapus");
+
+    axios
+      .delete("http://localhost:4000/book/delete/" + book._id)
+      .then(() => {
+        retrieveData();
+        alert("Data berhasil dihapus !");
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
   }
   return (
     <div>
